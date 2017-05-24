@@ -11,8 +11,8 @@ ARG PYTHON_VERSION=3.4.3
 ARG PYTHON_PIP_VERSION=9.0.1
 
 # Instal build requirements
-RUN apk add --no-cache --virtual .build-deps  \
-    coreutils \
+RUN apk update && \
+    apk add --no-cache --virtual .build-deps  \
     g++ \
     libc-dev \
     linux-headers \
@@ -22,18 +22,26 @@ RUN apk add --no-cache --virtual .build-deps  \
     tk-dev \
     git \
     wget \
-    perl
-
-# Build
-RUN mkdir -p /dev/shm/pfs/src && \
-    cd /dev/shm/pfs/src && \
+    perl \
+    libxml2-dev && \
+    mkdir -p /tmp && \
+    cd /tmp && \
     git clone https://github.com/urban-1/PFS.git && \
     cd PFS && \
-    sh ./pfs.sh -s /dev/shm/pfs/src -p /usr/local -v ${PYTHON_VERSION} && \
+    sed -i 's|V_XML2=2.9.1|V_XML2=2.9.4|g' ./versions.sh && \
+    sh ./pfs.sh -s /tmp -p /usr -v ${PYTHON_VERSION} -d && \
     cd .. && \
-    rm -rf /dev/shm/pfs/src
+    rm -rf /tmp/* && \
+    apk del .build-deps && \
+    find /usr/local -depth \
+            \( \
+                \( -type d -a -name test -o -name tests \) \
+                -o \
+                \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
+            \) -exec rm -rf '{}' + \
+    && rm -rf /usr/local/share \
+    && find /usr/local/lib/python* -name *.a -exec rm {} +
     
-# Clean
-RUN apk del g++ git make linux-headers tcl-dev tk-dev perl libc-dev
+    
 
 CMD ["/bin/sh"]
