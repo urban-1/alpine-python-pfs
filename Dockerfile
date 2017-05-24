@@ -21,8 +21,10 @@ RUN apk add --no-cache --virtual .build-deps  \
     tk \
     tk-dev \
     git \
-    wget
+    wget \
+    perl
 
+# Build
 RUN mkdir -p /dev/shm/pfs/src && \
     cd /dev/shm/pfs/src && \
     git clone https://github.com/urban-1/PFS.git && \
@@ -31,6 +33,7 @@ RUN mkdir -p /dev/shm/pfs/src && \
     cd .. && \
     rm -rf /dev/shm/pfs/src
     
-
+# Clean
+RUN apk del g++ git make linux-headers tcl-dev tk-dev perl
 
 CMD ["python3"]
