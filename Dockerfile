@@ -29,11 +29,11 @@ RUN mkdir -p /dev/shm/pfs/src && \
     cd /dev/shm/pfs/src && \
     git clone https://github.com/urban-1/PFS.git && \
     cd PFS && \
-    sh ./pfs.sh -p /usr/local -v ${PYTHON_VERSION} -d && \
+    sh ./pfs.sh -s /dev/shm/pfs/src -p /usr/local -v ${PYTHON_VERSION} && \
     cd .. && \
     rm -rf /dev/shm/pfs/src
     
 # Clean
-RUN apk del g++ git make linux-headers tcl-dev tk-dev perl
+RUN apk del g++ git make linux-headers tcl-dev tk-dev perl libc-dev
 
-CMD ["python3"]
+CMD ["/bin/sh"]
