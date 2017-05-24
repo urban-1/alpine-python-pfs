@@ -13,7 +13,7 @@ ARG PYTHON_PIP_VERSION=9.0.1
 # Instal build requirements
 RUN apk add --no-cache --virtual .build-deps  \
     coreutils \
-    gcc \
+    g++ \
     libc-dev \
     linux-headers \
     make \
@@ -27,7 +27,7 @@ RUN mkdir -p /dev/shm/pfs/src && \
     cd /dev/shm/pfs/src && \
     git clone https://github.com/urban-1/PFS.git && \
     cd PFS && \
-    sh ./pfs.sh -p /usr/local -v ${PYTHON_VERSION} && \
+    sh ./pfs.sh -p /usr/local -v ${PYTHON_VERSION} -d && \
     cd .. && \
     rm -rf /dev/shm/pfs/src
     
