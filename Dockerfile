@@ -46,7 +46,5 @@ RUN if [ ! -f /usr/local/bin/python ]; then \
         ln -s /usr/local/bin/python$(echo ${PYTHON_VERSION}|cut -d'.' -f1) /usr/local/bin/python; \
     fi
     
-    
-    
 
 ENTRYPOINT ["/bin/sh"]
