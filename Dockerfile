@@ -27,9 +27,8 @@ RUN apk update && \
     pkgconfig && \
     mkdir -p /tmp && \
     cd /tmp && \
-    git clone https://github.com/urban-1/PFS.git && \
+    git clone git@github.com:urban-1/PFS.git && \
     cd PFS && \
-    sed -i 's|V_XML2=2.9.1|V_XML2=2.9.4|g' ./versions.sh && \
     sh ./pfs.sh -s /tmp -p /usr -v ${PYTHON_VERSION} -d && \
     cd .. && \
     rm -rf /tmp/* && \
