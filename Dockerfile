@@ -39,8 +39,14 @@ RUN apk update && \
                 -o \
                 \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
             \) -exec rm -rf '{}' + \
-    && find /usr/local/lib/python* -name *.a -exec rm {} +
+    && find /usr/local/lib/python* -name *.a -exec rm {} + 
+
+# Do some linking...
+RUN if [ ! -f /usr/local/bin/python ]; then \
+        ln -s /usr/local/bin/python$(echo ${PYTHON_VERSION}|cut -d'.' -f1) /usr/local/bin/python; \
+    fi
+    
     
     
 
-CMD ["/bin/sh"]
+ENTRYPOINT ["/bin/sh"]
