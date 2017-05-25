@@ -23,7 +23,8 @@ RUN apk update && \
     git \
     wget \
     perl \
-    libxml2-dev && \
+    file \
+    pkgconfig && \
     mkdir -p /tmp && \
     cd /tmp && \
     git clone https://github.com/urban-1/PFS.git && \
@@ -39,7 +40,6 @@ RUN apk update && \
                 -o \
                 \( -type f -a -name '*.pyc' -o -name '*.pyo' \) \
             \) -exec rm -rf '{}' + \
-    && rm -rf /usr/local/share \
     && find /usr/local/lib/python* -name *.a -exec rm {} +
     
     
